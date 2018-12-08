@@ -1,2 +1,3 @@
-# markdown-to-mailchimp
-Test project to create Mailchimp newsletters using Markdown
+# Markdown To Mailchimp
+
+> Test project to create Mailchimp newsletters using Markdown

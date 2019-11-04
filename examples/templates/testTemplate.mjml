@@ -1,0 +1,33 @@
+<mjml>
+    <mj-head>
+        <mj-attributes>
+            <mj-all font-family="Helvetica" font-size="16px" color="#222" />
+        </mj-attributes>
+        <mj-preview>{{frontmatter.preview}}</mj-preview>
+    </mj-head>
+
+    <!-- Main body -->
+    <mj-body background-color="#fff">
+
+        <!-- Main content -->
+        <mj-section>
+            <mj-column>
+                <mj-text>{{content}}</mj-text>
+                <mj-divider border-width="1px" border-style="dotted" border-color="#111" />
+            </mj-column>
+        </mj-section>
+
+        <!-- Footer with Mailchimp specifics -->
+        <mj-section>
+            <mj-column>
+                <mj-text font-style="italic" font-size="12px">This email was sent to *|EMAIL|*.</mj-text>
+                <mj-text font-style="italic" font-size="12px">If you would like to stop getting these emails, click <a href="*|UNSUB|*" target="_blank">this link to unsubscribe</a> from this mailing list.</mj-text>
+
+                <mj-text font-style="italic" font-size="12px">Copyright © *|CURRENT_YEAR|* *|LIST:COMPANY|*, All rights reserved.</mj-text>
+                <mj-text font-size="12px">*|IFNOT:ARCHIVE_PAGE|* *|LIST:DESCRIPTION|*</mj-text>
+                <mj-text font-weight="bold" font-size="12px">My mailing address is:</mj-text>
+                <mj-text font-size="12px">*|HTML:LIST_ADDRESS_HTML|* *|END:IF|*</mj-text>
+            </mj-column>
+        </mj-section>
+    </mj-body>
+</mjml>

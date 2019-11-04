@@ -1,3 +1,5 @@
 # Markdown To Mailchimp
 
-> Test project to create Mailchimp newsletters using Markdown
+> Create Mailchimp newsletters using Markdown
+
+## Install

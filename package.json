@@ -1,0 +1,47 @@
+{
+    "name": "markdown-to-mailchimp",
+    "version": "0.1.0",
+    "main": "index.js",
+    "bin": {
+        "md2mc": "./bin/cli.js"
+    },
+    "repository": "git@github.com:MarcL/markdown-to-mailchimp.git",
+    "author": "Marc Littlemore <marc.littlemore@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "chalk": "^2.4.2",
+        "frontmatter": "^0.0.3",
+        "handlebars": "^4.5.1",
+        "mailchimp-api-v3": "^1.13.1",
+        "marked": "^0.7.0",
+        "mjml": "^4.5.1",
+        "yargs": "^14.2.0"
+    },
+    "devDependencies": {
+        "eslint": "^6.6.0",
+        "eslint-config-airbnb-base": "^14.0.0",
+        "eslint-config-prettier": "^6.5.0",
+        "eslint-plugin-import": "^2.18.2",
+        "husky": ">=1",
+        "lint-staged": ">=8",
+        "prettier": "1.18.2"
+    },
+    "scripts": {
+        "lint": "eslint ."
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,css,json}": [
+            "prettier --write",
+            "git add"
+        ],
+        "*.js": [
+            "eslint --fix",
+            "git add"
+        ]
+    }
+}

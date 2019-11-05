@@ -6,7 +6,7 @@ fromName: 'Test User'
 replyTo: 'test@test.com'
 ---
 
-Hi _|FNAME|_,
+Hi *|FNAME|*,
 
 Thanks for subscribing to my mailing list.
 

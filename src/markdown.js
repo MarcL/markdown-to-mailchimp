@@ -5,6 +5,7 @@ const marked = require('marked')
 // https://mailchimp.com/help/all-the-merge-tags-cheat-sheet/
 const isMailChimpTag = text => /\|(.+?)\|/.test(text)
 
+// TODO: Flag to decide whether to keep MailChimp tags or not
 const createHtmlFromMarkdown = content => {
     const newRenderer = new marked.Renderer()
     newRenderer.em = text =>

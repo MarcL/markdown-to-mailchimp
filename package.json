@@ -1,6 +1,6 @@
 {
     "name": "markdown-to-mailchimp",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "main": "index.js",
     "bin": {
         "md2mc": "./bin/cli.js"
@@ -13,7 +13,8 @@
         "handlebars": "^4.5.1",
         "mailchimp-api-v3": "^1.13.1",
         "marked": "^0.7.0",
-        "mjml": "^4.5.1"
+        "mjml": "^4.5.1",
+        "yargs": "^14.2.0"
     },
     "devDependencies": {
         "eslint": "^6.6.0",

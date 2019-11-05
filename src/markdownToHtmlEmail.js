@@ -20,9 +20,13 @@ const markdownToHtmlEmail = async options => {
         markdown: markdownFilename,
         template: mjmlTemplateFilename,
         output: outputDirectory,
+        keeptags: keepMailChimpTags,
     } = options
 
-    const fileData = await parseMarkdownFile(markdownFilename)
+    const fileData = await parseMarkdownFile(
+        markdownFilename,
+        keepMailChimpTags
+    )
 
     const mjmlRenderedTemplate = await renderHandlebars({
         filename: mjmlTemplateFilename,

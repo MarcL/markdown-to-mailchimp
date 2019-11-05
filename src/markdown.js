@@ -6,21 +6,26 @@ const marked = require('marked')
 const isMailChimpTag = text => /\|(.+?)\|/.test(text)
 
 // TODO: Flag to decide whether to keep MailChimp tags or not
-const createHtmlFromMarkdown = content => {
+const createHtmlFromMarkdown = (content, keepMailChimpTags = true) => {
     const newRenderer = new marked.Renderer()
     newRenderer.em = text =>
-        isMailChimpTag(text) ? `*${text}*` : `<em>${text}</em>`
+        keepMailChimpTags && isMailChimpTag(text)
+            ? `*${text}*`
+            : `<em>${text}</em>`
 
     return marked(content, {
         renderer: newRenderer,
     })
 }
 
-const parseMarkdownFile = async markdownFilename => {
+const parseMarkdownFile = async (
+    markdownFilename,
+    keepMailChimpTags = true
+) => {
     const fileContent = await fs.readFile(markdownFilename, 'utf8')
 
     const { content, data } = frontmatter(fileContent)
-    const html = createHtmlFromMarkdown(content)
+    const html = createHtmlFromMarkdown(content, keepMailChimpTags)
 
     return {
         html,

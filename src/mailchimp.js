@@ -27,9 +27,9 @@ const createCampaign = ({
     })
 }
 
-const updateCampaignHtml = ({ apiKey, campaignId, html }) => {
+const updateCampaignHtml = ({ apiKey, id, html }) => {
     const mailchimp = new Mailchimp(apiKey)
-    return mailchimp.put(`/campaigns/${campaignId}/content`, {
+    return mailchimp.put(`/campaigns/${id}/content`, {
         html,
     })
 }

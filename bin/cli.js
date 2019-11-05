@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 const yargs = require('yargs')
+const chalk = require('chalk')
 const markdownToHtmlEmail = require('../src/markdownToHtmlEmail')
+const createMailchimpCampaign = require('../src/createMailchimpCampaign')
+
+const logError = error => console.error(chalk.bold.red(`❌ ${error}`))
+const logSuccess = message => console.log(chalk.green(`✅ ${message}`))
 
 const { argv } = yargs
     .usage('Usage: $0 [options]')
@@ -38,10 +43,37 @@ const { argv } = yargs
     .option('k', {
         alias: 'keeptags',
         default: true,
-        describe: 'Keep MailChimp merge tags',
+        describe: 'Keep Mailchimp merge tags',
         type: 'boolean',
     })
     .help('h')
     .alias('h', 'help')
 
-markdownToHtmlEmail(argv).then(data => console.log(data))
+const convertAndCreateCampaign = async args => {
+    try {
+        const emailData = await markdownToHtmlEmail(args)
+
+        const { apikey: apiKey, listid: listId } = args
+        const options = {
+            apiKey,
+            listId,
+            ...emailData,
+        }
+
+        logSuccess('Created email data')
+
+        const campaignData = await createMailchimpCampaign(options)
+        if (!campaignData) {
+            logError('No Mailchimp campaign created')
+        } else {
+            const { web_id: id } = campaignData
+            const editUrl = 'https://admin.mailchimp.com/campaigns/edit'
+
+            logSuccess(`Mailchimp campaign created - ${editUrl}?id=${id}`)
+        }
+    } catch (error) {
+        console.error(error.toString())
+    }
+}
+
+convertAndCreateCampaign(argv)

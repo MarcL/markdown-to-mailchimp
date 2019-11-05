@@ -16,19 +16,17 @@ const createHtmlFromMarkdown = content => {
     })
 }
 
-const parseMarkdownFile = markdownFilename => {
-    return fs
-        .readFile(markdownFilename, 'utf8')
-        .then(fileContent => frontmatter(fileContent))
-        .then(parsedFile => {
-            const { content, data } = parsedFile
-            const html = createHtmlFromMarkdown(content)
-            return {
-                html,
-                markdown: content,
-                frontmatter: data,
-            }
-        })
+const parseMarkdownFile = async markdownFilename => {
+    const fileContent = await fs.readFile(markdownFilename, 'utf8')
+
+    const { content, data } = frontmatter(fileContent)
+    const html = createHtmlFromMarkdown(content)
+
+    return {
+        html,
+        markdown: content,
+        frontmatter: data,
+    }
 }
 
 module.exports = parseMarkdownFile

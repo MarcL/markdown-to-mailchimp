@@ -18,12 +18,12 @@ const createMailchimpCampaign = async options => {
 
     if (!campaign) {
         campaign = await mailchimp.createCampaign(campaignOptions);
-    } else {
-        await mailchimp.updateCampaignHtml({
-            ...campaignOptions,
-            id: campaign.id,
-        });
     }
+
+    await mailchimp.updateCampaignHtml({
+        ...campaignOptions,
+        id: campaign.id,
+    });
 
     return campaign;
 };

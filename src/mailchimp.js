@@ -1,4 +1,4 @@
-const Mailchimp = require('mailchimp-api-v3')
+const Mailchimp = require('mailchimp-api-v3');
 
 const createCampaign = ({
     apiKey,
@@ -10,7 +10,7 @@ const createCampaign = ({
     replyTo,
     type = 'regular',
 }) => {
-    const mailchimp = new Mailchimp(apiKey)
+    const mailchimp = new Mailchimp(apiKey);
     return mailchimp.post('/campaigns', {
         type,
         recipients: {
@@ -24,31 +24,31 @@ const createCampaign = ({
             reply_to: replyTo,
             to_name: '*|FNAME|*',
         },
-    })
-}
+    });
+};
 
 const updateCampaignHtml = ({ apiKey, id, html }) => {
-    const mailchimp = new Mailchimp(apiKey)
+    const mailchimp = new Mailchimp(apiKey);
     return mailchimp.put(`/campaigns/${id}/content`, {
         html,
-    })
-}
+    });
+};
 
 const findCampaignIdByMetaData = ({ apiKey, listId, title, subject }) => {
-    const mailchimp = new Mailchimp(apiKey)
+    const mailchimp = new Mailchimp(apiKey);
     return mailchimp.get('/campaigns', { count: 1000 }).then(response => {
         return response.campaigns.find(campaign => {
             return (
                 campaign.recipients.list_id === listId &&
                 campaign.settings.subject_line === subject &&
                 campaign.settings.title === title
-            )
-        })
-    })
-}
+            );
+        });
+    });
+};
 
 module.exports = {
     createCampaign,
     findCampaignIdByMetaData,
     updateCampaignHtml,
-}
+};

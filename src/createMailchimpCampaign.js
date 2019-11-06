@@ -1,10 +1,10 @@
-const mailchimp = require('./mailchimp')
+const mailchimp = require('./mailchimp');
 
 const createMailchimpCampaign = async options => {
-    const { apiKey, listId, frontmatter, html } = options
+    const { apiKey, listId, frontmatter, html } = options;
 
     if (!apiKey || !listId) {
-        return false
+        return false;
     }
 
     const campaignOptions = {
@@ -12,20 +12,20 @@ const createMailchimpCampaign = async options => {
         listId,
         ...frontmatter,
         html,
-    }
+    };
 
-    let campaign = await mailchimp.findCampaignIdByMetaData(campaignOptions)
+    let campaign = await mailchimp.findCampaignIdByMetaData(campaignOptions);
 
     if (!campaign) {
-        campaign = await mailchimp.createCampaign(campaignOptions)
+        campaign = await mailchimp.createCampaign(campaignOptions);
     } else {
         await mailchimp.updateCampaignHtml({
             ...campaignOptions,
             id: campaign.id,
-        })
+        });
     }
 
-    return campaign
-}
+    return campaign;
+};
 
-module.exports = createMailchimpCampaign
+module.exports = createMailchimpCampaign;

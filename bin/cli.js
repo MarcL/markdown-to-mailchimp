@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 const yargs = require('yargs');
 const chalk = require('chalk');
-const markdownToHtmlEmail = require('../src/markdownToHtmlEmail');
-const createMailchimpCampaign = require('../src/createMailchimpCampaign');
+const convertAndCreateCampaign = require('../src');
 
 const logError = error => console.error(chalk.bold.red(`❌ ${error}`));
 const logSuccess = message => console.log(chalk.green(`✅ ${message}`));
@@ -49,31 +48,20 @@ const { argv } = yargs
     .help('h')
     .alias('h', 'help');
 
-const convertAndCreateCampaign = async args => {
-    try {
-        const emailData = await markdownToHtmlEmail(args);
+convertAndCreateCampaign(argv)
+    .then(data => {
+        const { email, campaign } = data;
+        if (email.errors.length > 0) {
+            throw new Error(email.errors.toString());
+        }
 
-        const { apikey: apiKey, listid: listId } = args;
-        const options = {
-            apiKey,
-            listId,
-            ...emailData,
-        };
+        logSuccess('Email created');
 
-        logSuccess('Created email data');
-
-        const campaignData = await createMailchimpCampaign(options);
-        if (!campaignData) {
-            logError('No Mailchimp campaign created');
-        } else {
-            const { web_id: id } = campaignData;
+        if (campaign) {
+            const { web_id: id } = campaign;
             const editUrl = 'https://admin.mailchimp.com/campaigns/edit';
 
-            logSuccess(`Mailchimp campaign created - ${editUrl}?id=${id}`);
+            logSuccess(`Mailchimp campaign: ${editUrl}?id=${id}`);
         }
-    } catch (error) {
-        console.error(error.toString());
-    }
-};
-
-convertAndCreateCampaign(argv);
+    })
+    .catch(error => logError(error));

@@ -4,7 +4,7 @@ const createMailchimpCampaign = async options => {
     const { apiKey, listId, frontmatter, html } = options;
 
     if (!apiKey || !listId) {
-        return false;
+        return null;
     }
 
     const campaignOptions = {

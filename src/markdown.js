@@ -5,12 +5,15 @@ const marked = require('marked');
 // https://mailchimp.com/help/all-the-merge-tags-cheat-sheet/
 const isMailChimpTag = text => /\|(.+?)\|/.test(text);
 
+const originalRenderer = new marked.Renderer();
+
 const createHtmlFromMarkdown = (content, keepMailChimpTags = true) => {
     const newRenderer = new marked.Renderer();
+
     newRenderer.em = text =>
         keepMailChimpTags && isMailChimpTag(text)
             ? `*${text}*`
-            : `<em>${text}</em>`;
+            : originalRenderer.em(text);
 
     return marked(content, {
         renderer: newRenderer,

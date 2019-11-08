@@ -6,13 +6,4 @@ fromName: 'Test User'
 replyTo: 'test@test.com'
 ---
 
-Hi *|FNAME|*,
-
-Thanks for subscribing to my mailing list.
-
-This is an email which has been converted from markdown to HTML.
-
 Testing link in markdown: [link](https://test.com?param=*|MC:DATE|*&another=true&test=lets%20test)
-
-Thanks,
-Marc

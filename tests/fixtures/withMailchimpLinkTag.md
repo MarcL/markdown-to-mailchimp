@@ -6,4 +6,4 @@ fromName: 'Test User'
 replyTo: 'test@test.com'
 ---
 
-Testing link in markdown: [link](https://test.com?param=*|MC:DATE|*&another=true&test=lets%20test)
+Testing link in markdown: [link](https://test.com/path/to/api?param=*|MC:DATE|*&another=true&test=lets%20test)

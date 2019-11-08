@@ -13,11 +13,10 @@ const createMailchimpRenderer = originalRenderer => {
         isMailchimpTag(text) ? `*${text}*` : originalRenderer.em(text);
 
     mailchimpRenderer.link = (href, text, title) => {
-        const { hostname, protocol, query } = url.parse(href);
+        const { hostname, pathname, protocol, query } = url.parse(href);
 
         const queryParameters = querystring.parse(query);
 
-        const newBaseUrl = `${protocol}//${hostname}`;
         const newQueryParameters = Object.keys(queryParameters)
             .map(key => {
                 const value = queryParameters[key];
@@ -28,9 +27,10 @@ const createMailchimpRenderer = originalRenderer => {
             })
             .join('&amp;');
 
+        const newBaseUrl = `${protocol}//${hostname}${pathname}`;
         const newHref =
             newQueryParameters.length > 0
-                ? `${newBaseUrl}?${newQueryParameters}`
+                ? `${newBaseUrl}${pathname}?${newQueryParameters}`
                 : newBaseUrl;
         return `<a href="${newHref}">${title}</a>`;
     };

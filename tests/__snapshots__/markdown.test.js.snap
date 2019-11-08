@@ -34,10 +34,10 @@ Object {
     "subject": "Email subject line",
     "title": "Title of the email campaign in Mailchimp",
   },
-  "html": "<p>Testing link in markdown: <a href=\\"https://test.com?param=*%7CMC:DATE%7C*&amp;another=true&amp;test=lets%20test\\">link</a></p>
+  "html": "<p>Testing link in markdown: <a href=\\"https://test.com/path/to/api?param=*%7CMC:DATE%7C*&amp;another=true&amp;test=lets%20test\\">link</a></p>
 ",
   "markdown": "
-Testing link in markdown: [link](https://test.com?param=*|MC:DATE|*&another=true&test=lets%20test)
+Testing link in markdown: [link](https://test.com/path/to/api?param=*|MC:DATE|*&another=true&test=lets%20test)
 ",
 }
 `;
@@ -51,7 +51,7 @@ Object {
     "subject": "Email subject line",
     "title": "Title of the email campaign in Mailchimp",
   },
-  "html": "<p>Testing link in markdown: <a href=\\"https://test.com\\">link</a></p>
+  "html": "<p>Testing link in markdown: <a href=\\"https://test.com/\\">link</a></p>
 ",
   "markdown": "
 Testing link in markdown: [link](https://test.com)
@@ -68,10 +68,10 @@ Object {
     "subject": "Email subject line",
     "title": "Title of the email campaign in Mailchimp",
   },
-  "html": "<p>Testing link in markdown: <a href=\\"https://test.com?param=*|MC:DATE|*&amp;another=true&amp;test=lets%20test\\">link</a></p>
+  "html": "<p>Testing link in markdown: <a href=\\"https://test.com/path/to/api/path/to/api?param=*|MC:DATE|*&amp;another=true&amp;test=lets%20test\\">link</a></p>
 ",
   "markdown": "
-Testing link in markdown: [link](https://test.com?param=*|MC:DATE|*&another=true&test=lets%20test)
+Testing link in markdown: [link](https://test.com/path/to/api?param=*|MC:DATE|*&another=true&test=lets%20test)
 ",
 }
 `;
@@ -85,7 +85,7 @@ Object {
     "subject": "Email subject line",
     "title": "Title of the email campaign in Mailchimp",
   },
-  "html": "<p>Testing link in markdown: <a href=\\"https://test.com\\">link</a></p>
+  "html": "<p>Testing link in markdown: <a href=\\"https://test.com/\\">link</a></p>
 ",
   "markdown": "
 Testing link in markdown: [link](https://test.com)

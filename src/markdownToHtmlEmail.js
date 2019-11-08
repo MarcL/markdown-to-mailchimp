@@ -28,6 +28,8 @@ const markdownToHtmlEmail = async options => {
         keepMailChimpTags
     );
 
+    console.log(fileData);
+
     const mjmlRenderedTemplate = await renderHandlebars({
         filename: mjmlTemplateFilename,
         context: {

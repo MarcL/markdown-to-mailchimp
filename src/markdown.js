@@ -1,22 +1,53 @@
 const fs = require('fs').promises;
+const url = require('url');
+const querystring = require('querystring');
 const frontmatter = require('frontmatter');
 const marked = require('marked');
 
-// https://mailchimp.com/help/all-the-merge-tags-cheat-sheet/
-const isMailChimpTag = text => /\|(.+?)\|/.test(text);
+const isMailchimpTag = text => /\|(.+?)\|/.test(text);
 
-const originalRenderer = new marked.Renderer();
+const createMailchimpRenderer = originalRenderer => {
+    const mailchimpRenderer = new marked.Renderer();
+
+    mailchimpRenderer.em = text =>
+        isMailchimpTag(text) ? `*${text}*` : originalRenderer.em(text);
+
+    mailchimpRenderer.link = (href, text, title) => {
+        const { hostname, protocol, query } = url.parse(href);
+
+        const queryParameters = querystring.parse(query);
+
+        const newBaseUrl = `${protocol}//${hostname}`;
+        const newQueryParameters = Object.keys(queryParameters)
+            .map(key => {
+                const value = queryParameters[key];
+                const encodedValue = isMailchimpTag(value)
+                    ? value
+                    : encodeURIComponent(value);
+                return `${key}=${encodedValue}`;
+            })
+            .join('&amp;');
+
+        const newHref =
+            newQueryParameters.length > 0
+                ? `${newBaseUrl}?${newQueryParameters}`
+                : newBaseUrl;
+        return `<a href="${newHref}">${title}</a>`;
+    };
+
+    return mailchimpRenderer;
+};
+
+const createRenderer = (keepMailChimpTags = true) => {
+    const originalRenderer = new marked.Renderer();
+    return keepMailChimpTags
+        ? createMailchimpRenderer(originalRenderer)
+        : originalRenderer;
+};
 
 const createHtmlFromMarkdown = (content, keepMailChimpTags = true) => {
-    const newRenderer = new marked.Renderer();
-
-    newRenderer.em = text =>
-        keepMailChimpTags && isMailChimpTag(text)
-            ? `*${text}*`
-            : originalRenderer.em(text);
-
     return marked(content, {
-        renderer: newRenderer,
+        renderer: createRenderer(keepMailChimpTags),
     });
 };
 
@@ -24,7 +55,15 @@ const parseMarkdownFile = async (
     markdownFilename,
     keepMailChimpTags = true
 ) => {
-    const fileContent = await fs.readFile(markdownFilename, 'utf8');
+    let fileContent;
+
+    try {
+        fileContent = await fs.readFile(markdownFilename, 'utf8');
+    } catch (error) {
+        return {
+            errors: [error.toString()],
+        };
+    }
 
     const { content, data } = frontmatter(fileContent);
     const html = createHtmlFromMarkdown(content, keepMailChimpTags);

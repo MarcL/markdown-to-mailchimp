@@ -28,9 +28,10 @@ const createMailchimpRenderer = originalRenderer => {
             .join('&amp;');
 
         const newBaseUrl = `${protocol}//${hostname}${pathname}`;
+
         const newHref =
             newQueryParameters.length > 0
-                ? `${newBaseUrl}${pathname}?${newQueryParameters}`
+                ? `${newBaseUrl}?${newQueryParameters}`
                 : newBaseUrl;
         return `<a href="${newHref}">${title}</a>`;
     };

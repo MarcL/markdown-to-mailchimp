@@ -3,8 +3,9 @@ const yargs = require('yargs');
 const chalk = require('chalk');
 const convertAndCreateCampaign = require('../src');
 
-const logError = error => console.error(chalk.bold.red(`❌ ${error}`));
-const logSuccess = message => console.log(chalk.green(`✅ ${message}`));
+const logError = message => console.error(chalk.red(`❌ - ${message}`));
+const logWarning = message => console.error(chalk.yellow(`⚠️ - ${message}`));
+const logSuccess = message => console.log(chalk.green(`✅ - ${message}`));
 
 const { argv } = yargs
     .usage('Usage: $0 [options]')
@@ -50,10 +51,13 @@ const { argv } = yargs
 
 convertAndCreateCampaign(argv)
     .then(data => {
-        const { email, campaign } = data;
-        if (email.errors.length > 0) {
-            throw new Error(email.errors.toString());
-        }
+        const {
+            email: { errors },
+            campaign,
+        } = data;
+        errors.forEach(error => {
+            logWarning(error.message);
+        });
 
         logSuccess('Email created');
 
@@ -64,4 +68,6 @@ convertAndCreateCampaign(argv)
             logSuccess(`Mailchimp campaign: ${editUrl}?id=${id}`);
         }
     })
-    .catch(error => logError(error));
+    .catch(error => {
+        logError(error);
+    });

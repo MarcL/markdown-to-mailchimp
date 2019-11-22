@@ -2,6 +2,12 @@
 
 > Create Mailchimp newsletters using Markdown
 
+**Note: This is still a Work In Progress**
+
+## Why?
+
+Writing emails in Mailchimp's WYSIWYG editor can be a pain. This library allows you to write Mailchimp campaign emails using [Markdown](https://en.wikipedia.org/wiki/Markdown) and format your emails using [MJML](https://mjml.io/) to create beautiful HTML emails. It offers both a command line (CLI) tool and a Node.js library.
+
 ## Install
 
 Use `npm` or `yarn` to install the package:
@@ -71,3 +77,35 @@ const options = {
 // to wait for a response
 const data = await markdownToMailChimp(options);
 ```
+
+### Emails in Markdown
+
+Your email should be created using Markdown in either the [CommonMark](https://spec.commonmark.org/0.29/) or [GitHub Flavoured](https://github.github.com/gfm/) markdown.
+
+The parser allows for YAML frontmatter to be added to your markdown file, as you would when using a tool like [Jekyl](https://jekyllrb.com/docs/front-matter/). This frontmatter can contain any data you want to inject into your MJML template.
+
+If you plan to create the Mailchimp campaign in addition to rendering an HTML template, you'll need the following frontmatter set in your markdown:
+
+* **subject** - The email campaign subject
+* **preview** - The email preview text
+* **title** - The title of the campaign
+* **fromName** - The name of the person that is sending the email
+* **replyTo** - The email address to reply to
+
+You can use [Mailchimp merge tags](https://mailchimp.com/help/all-the-merge-tags-cheat-sheet/) in your markdown but ensure that you set the `keeptags` option when converting. This allows you to keep a tag such as `*|MC:DATE|*` without it being converted to italic text.
+
+See an example [here](./examples/markdown/test.md).
+
+### MJML Templates
+
+Once the markdown is converted to HTML, it's injected into an MJML template. This template is converted using the [Handlebars](https://handlebarsjs.com/) templating language. This allows you to pass through any of your frontmatter variables using the `{{frontmatter.yourVariable}}` format. The markdown HTML content is given as the `{{content}}` variable.
+
+See an example [here](./examples/templates/testTemplate.mjml).
+
+## TODO
+
+* Ensure conversion allows all use of Mailchimp tags
+* Validate expected frontmatter for Mailchimp
+* Allow different campaign types
+* Sanitise output of Markdown conversion - use [Sanitize](https://github.com/apostrophecms/sanitize-html)?
+* Tests!

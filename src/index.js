@@ -1,14 +1,17 @@
 const markdownToHtmlEmail = require('./markdownToHtmlEmail');
 const createMailchimpCampaign = require('./createMailchimpCampaign');
 
-const convertAndCreateCampaign = async args => {
+const convertAndCreateCampaign = async (args) => {
     try {
         const emailData = await markdownToHtmlEmail(args);
+        const {
+            frontmatter: { listId: frontmatterListId },
+        } = emailData;
 
         const { apikey: apiKey, listid: listId } = args;
         const options = {
             apiKey,
-            listId,
+            listId: listId || frontmatterListId,
             ...emailData,
         };
 

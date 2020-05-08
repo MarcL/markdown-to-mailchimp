@@ -69,6 +69,7 @@ const options = {
     output: './directory/to/output/html/to/'
 
     // Optional if you want a Mailchimp campaign to be created
+    // The Mailchimp list ID can also be set as frontmatter in your markdown email
     apikey: 'mailchimp-api-key',
     listid: 'mailchimp-list-id',
 };
@@ -91,6 +92,7 @@ If you plan to create the Mailchimp campaign in addition to rendering an HTML te
 * **title** - The title of the campaign
 * **fromName** - The name of the person that is sending the email
 * **replyTo** - The email address to reply to
+* **listId** - (Optional) Mailchimp List (Audience) identifier. If this is not set then the list ID should be passed in the `options` or as the `MAILCHIMP_LIST_ID` environment variable.
 
 You can use [Mailchimp merge tags](https://mailchimp.com/help/all-the-merge-tags-cheat-sheet/) in your markdown but ensure that you set the `keeptags` option when converting. This allows you to keep a tag such as `*|MC:DATE|*` without it being converted to italic text.
 

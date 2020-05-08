@@ -1,6 +1,6 @@
 {
     "name": "markdown-to-mailchimp",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "main": "./src/index.js",
     "bin": {
         "md2mc": "./bin/cli.js"

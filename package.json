@@ -9,13 +9,13 @@
     "author": "Marc Littlemore <marc.littlemore@gmail.com>",
     "license": "MIT",
     "dependencies": {
-        "chalk": "^2.4.2",
+        "chalk": "^4.0.0",
         "frontmatter": "^0.0.3",
         "handlebars": "^4.5.1",
         "mailchimp-api-v3": "^1.13.1",
-        "marked": "^0.7.0",
+        "marked": "^1.0.0",
         "mjml": "^4.5.1",
-        "yargs": "^14.2.0"
+        "yargs": "^15.3.1"
     },
     "devDependencies": {
         "eslint": "^6.6.0",
@@ -24,9 +24,9 @@
         "eslint-plugin-import": "^2.18.2",
         "eslint-plugin-jest": "^23.0.3",
         "husky": ">=1",
-        "jest": "^24.9.0",
+        "jest": "^26.0.1",
         "lint-staged": ">=8",
-        "prettier": "1.18.2"
+        "prettier": "2.0.5"
     },
     "scripts": {
         "lint": "eslint .",

@@ -11,6 +11,7 @@ const createCampaign = ({
     type = 'regular',
 }) => {
     const mailchimp = new Mailchimp(apiKey);
+
     return mailchimp.post('/campaigns', {
         type,
         recipients: {

@@ -105,5 +105,34 @@ describe('Mailchimp', () => {
                 },
             });
         });
+
+        it('should call Mailchimp client post method with regular type if none passed', async () => {
+            expect.assertions(1);
+            const givenOptions = {
+                listId: 'expectedListId',
+                subject: 'expectedSubject',
+                preview: 'expectedPreview',
+                title: 'expectedTitle',
+                fromName: 'expectedFromName',
+                replyTo: 'expectedReplyTo',
+            };
+
+            await mailchimp.createCampaign(givenOptions);
+
+            expect(mockMailchimpPost).toHaveBeenCalledWith('/campaigns', {
+                type: 'regular',
+                recipients: {
+                    list_id: 'expectedListId',
+                },
+                settings: {
+                    subject_line: 'expectedSubject',
+                    preview_text: 'expectedPreview',
+                    title: 'expectedTitle',
+                    from_name: 'expectedFromName',
+                    reply_to: 'expectedReplyTo',
+                    to_name: '*|FNAME|*',
+                },
+            });
+        });
     });
 });

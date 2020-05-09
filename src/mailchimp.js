@@ -36,8 +36,8 @@ const updateCampaignHtml = ({ apiKey, id, html }) => {
 
 const findCampaignIdByMetaData = ({ apiKey, listId, title, subject }) => {
     const mailchimp = new Mailchimp(apiKey);
-    return mailchimp.get('/campaigns', { count: 1000 }).then(response => {
-        return response.campaigns.find(campaign => {
+    return mailchimp.get('/campaigns', { count: 1000 }).then((response) => {
+        return response.campaigns.find((campaign) => {
             return (
                 campaign.recipients.list_id === listId &&
                 campaign.settings.subject_line === subject &&
@@ -47,8 +47,15 @@ const findCampaignIdByMetaData = ({ apiKey, listId, title, subject }) => {
     });
 };
 
+const isCampaignSent = (campaign) => {
+    const { status } = campaign;
+
+    return status === 'sent' || status === 'sending';
+};
+
 module.exports = {
     createCampaign,
     findCampaignIdByMetaData,
+    isCampaignSent,
     updateCampaignHtml,
 };

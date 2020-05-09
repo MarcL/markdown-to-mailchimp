@@ -104,6 +104,10 @@ Once the markdown is converted to HTML, it's injected into an MJML template. Thi
 
 See an example [here](./examples/templates/testTemplate.mjml).
 
+## Mailchimp Campaigns
+
+This library will create a new campaign for you if no campaign already exists with the same title and subject. If it already exists then it updates with the new HTML, unless the campaign has either the `sent` (already delivered) or `sending` (for automations) status.
+
 ## TODO
 
 * Ensure conversion allows all use of Mailchimp tags

@@ -1,6 +1,6 @@
 const mailchimp = require('./mailchimp');
 
-const createMailchimpCampaign = async options => {
+const createMailchimpCampaign = async (options) => {
     const { apiKey, listId, frontmatter, html } = options;
 
     if (!apiKey || !listId) {
@@ -18,6 +18,10 @@ const createMailchimpCampaign = async options => {
 
     if (!campaign) {
         campaign = await mailchimp.createCampaign(campaignOptions);
+    }
+
+    if (mailchimp.isCampaignSent(campaign)) {
+        return campaign;
     }
 
     await mailchimp.updateCampaignHtml({

@@ -135,4 +135,130 @@ describe('Mailchimp', () => {
             });
         });
     });
+
+    describe('updateCampaignHtml()', () => {
+        it('should create a Mailchimp client with the expected API key', async () => {
+            expect.assertions(1);
+            const expectedApiKey = 'expectedApiKey';
+            const givenOptions = {
+                apiKey: expectedApiKey,
+            };
+
+            await mailchimp.updateCampaignHtml(givenOptions);
+
+            expect(Mailchimp).toHaveBeenCalledWith(expectedApiKey);
+        });
+
+        it('should call Mailchimp client put method with expected parameters', async () => {
+            expect.assertions(1);
+            const givenOptions = {
+                apiKey: 'expectedApiKey',
+                id: 'expectedId',
+                html: 'expectedHtml',
+            };
+
+            await mailchimp.updateCampaignHtml(givenOptions);
+
+            expect(mockMailchimpPut).toHaveBeenCalledWith(
+                '/campaigns/expectedId/content',
+                {
+                    html: 'expectedHtml',
+                }
+            );
+        });
+    });
+
+    describe('findCampaignIdByMetaData()', () => {
+        it('should create a Mailchimp client with the expected API key', async () => {
+            expect.assertions(1);
+            const expectedApiKey = 'expectedApiKey';
+            const givenOptions = {
+                apiKey: expectedApiKey,
+            };
+
+            mockMailchimpGet.mockResolvedValue({
+                campaigns: [],
+            });
+
+            await mailchimp.findCampaignIdByMetaData(givenOptions);
+
+            expect(Mailchimp).toHaveBeenCalledWith(expectedApiKey);
+        });
+
+        it('should call Mailchimp client get method with expected parameters', async () => {
+            expect.assertions(1);
+            const givenOptions = {
+                apiKey: 'expectedApiKey',
+                listId: 'expectedListId',
+                title: 'expectedTitle',
+                subject: 'expectedSubject',
+            };
+
+            mockMailchimpGet.mockResolvedValue({
+                campaigns: [],
+            });
+
+            await mailchimp.findCampaignIdByMetaData(givenOptions);
+
+            expect(mockMailchimpGet).toHaveBeenCalledWith('/campaigns', {
+                count: 1000,
+            });
+        });
+
+        it('should return undefined if no campaign is found', async () => {
+            expect.assertions(1);
+            const givenOptions = {
+                apiKey: 'expectedApiKey',
+                listId: 'expectedListId',
+                title: 'expectedTitle',
+                subject: 'expectedSubject',
+            };
+
+            mockMailchimpGet.mockResolvedValue({
+                campaigns: [
+                    {
+                        recipients: {
+                            list_id: 'notFoundListId',
+                        },
+                        settings: {
+                            subject_line: 'notFoundSubjectLine',
+                            title: 'notFoundTitle',
+                        },
+                    },
+                ],
+            });
+
+            await expect(
+                mailchimp.findCampaignIdByMetaData(givenOptions)
+            ).resolves.toBeUndefined();
+        });
+
+        it('should return expected campaign if listId, subject and title match', async () => {
+            expect.assertions(1);
+            const givenOptions = {
+                apiKey: 'expectedApiKey',
+                listId: 'expectedListId',
+                title: 'expectedTitle',
+                subject: 'expectedSubject',
+            };
+
+            const fakeFoundCampaign = {
+                recipients: {
+                    list_id: 'expectedListId',
+                },
+                settings: {
+                    subject_line: 'expectedSubject',
+                    title: 'expectedTitle',
+                },
+            };
+
+            mockMailchimpGet.mockResolvedValue({
+                campaigns: [fakeFoundCampaign],
+            });
+
+            await expect(
+                mailchimp.findCampaignIdByMetaData(givenOptions)
+            ).resolves.toEqual(fakeFoundCampaign);
+        });
+    });
 });
